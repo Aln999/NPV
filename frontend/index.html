@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cluster Connectivity Visualizer</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Cluster Connectivity Analyzer</h1>
+        
+        <div class="section">
+            <h2>Connectivity Check</h2>
+            <div class="input-group">
+                <input type="text" id="source" placeholder="Source Pod">
+                <input type="text" id="destination" placeholder="Destination Pod">
+                <button onclick="checkConnectivity()">Check</button>
+            </div>
+            <div id="connectivity-result"></div>
+        </div>
+
+        <div class="section">
+            <h2>Policy Analysis</h2>
+            <input type="text" id="namespace" placeholder="Namespace">
+            <button onclick="analyzePolicies()">Analyze</button>
+            <div id="analysis-result"></div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

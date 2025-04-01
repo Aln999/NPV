@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: connectivity-visualizer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: connectivity-visualizer
+  template:
+    metadata:
+      labels:
+        app: connectivity-visualizer
+    spec:
+      serviceAccountName: connectivity-visualizer
+      containers:
+      - name: main
+        image: your-registry/cluster-connectivity:latest
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
