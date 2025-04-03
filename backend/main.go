@@ -6,9 +6,10 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/cluster-connectivity-visualizer/pkg/analyzer"
-	"github.com/cluster-connectivity-visualizer/pkg/checker"
-	"github.com/cluster-connectivity-visualizer/pkg/recommender"
+	"network-policy-visualizer/pkg/analyzer"
+	"network-policy-visualizer/pkg/checker"
+	"network-policy-visualizer/pkg/recommender"
+
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 )
@@ -61,15 +62,20 @@ func connectivityCheckHandler(w http.ResponseWriter, r *http.Request) {
 func policyAnalysisHandler(w http.ResponseWriter, r *http.Request) {
 	namespace := r.URL.Query().Get("namespace")
 
+	// Analyze policies and get the necessary data for visualization
 	analysis, err := analyzer.AnalyzePolicies(clientset, namespace)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	json.NewEncoder(w).Encode(analysis)
-}
+	// Prepare the response data for visualization
+	response := map[string]interface{}{
+		"wideOpenPolicies":    analysis.WideOpenPolicies,
+		"unnecessaryPolicies": analysis.UnnecessaryPolicies,
+		"recommendations":     analysis.Recommendations,
+		"networkFlow":         analysis.NetworkFlow, // Corrected field name
+	}
 
-func serveFrontend(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "frontend/index.html")
+	json.NewEncoder(w).Encode(response)
 }
