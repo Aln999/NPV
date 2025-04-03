@@ -15,7 +15,8 @@ spec:
       serviceAccountName: connectivity-visualizer
       containers:
       - name: main
-        image: your-registry/cluster-connectivity:latest
+        image: network-policy-visualizer:1.0  # Use the locally built image
+        imagePullPolicy: Never  # Prevents Kubernetes from pulling from a registry
         ports:
         - containerPort: 8080
         resources:
